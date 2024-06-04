@@ -5,10 +5,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ThreadPooledServer implements Runnable {
-    protected ServerSocket serverSocket = null;
+    protected ServerSocket serverSocket;
     protected int serverPort;
     protected boolean isStopped = false;
-    protected Thread runningThread = null;
+    protected Thread runningThread;
     protected ExecutorService threadPool = Executors.newFixedThreadPool(64);
 
     public ThreadPooledServer(int port) {
@@ -32,7 +32,7 @@ public class ThreadPooledServer implements Runnable {
                 throw new RuntimeException(
                         "Error accepting client connection", e);
             }
-            this.threadPool.execute(new Server(clientSocket,"Thread Pooled Server"));
+            this.threadPool.execute(new Server(clientSocket, "Thread Pooled Server"));
         }
         this.threadPool.shutdown();
         System.out.println("Server Stopped.");
@@ -56,7 +56,7 @@ public class ThreadPooledServer implements Runnable {
         try {
             this.serverSocket = new ServerSocket(this.serverPort);
         } catch (IOException e) {
-            throw new RuntimeException("Cannot open port 8080", e);
+            throw new RuntimeException("Cannot open port", e);
         }
     }
 }
